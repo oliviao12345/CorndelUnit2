@@ -36,20 +36,19 @@ def create_project_readme():
                         f"Enter the path for image {image_index + 1} to be linked in the {section_title} section "
                         f"(e.g., image_folder/example.png) - Ensure image(s) have been uploaded to the image_folder: ")
 
-                    if os.path.abspath(image_path_from_user):
+                    if os.path.isfile(image_path_from_user):
                         print("Image has been found in the folder and added to the README.")
                         image_found = True
                     else:
                         print("Image has not been found in the folder. Please check and try again.")
 
+                    if any(image_path_from_user.endswith(format) for format in valid_image_formats):
+                        print("Image format is valid.")
+                    else:
+                        print("Invalid image format. Accepted formats: .png, .jpeg, .jpg, .svc, .gif")
+
                 image_alt_text = input(f"Enter alt text for image {image_index + 1}: ")
                 readme_img_add = f"<br>![{image_alt_text}]({image_path_from_user})\n"  # Initialize the variable with an empty string
-
-                if any(image_path_from_user.endswith(format) for format in valid_image_formats):
-                    print("Image format is valid.")
-                else:
-                    print("Invalid image format. Accepted formats: .png, .jpeg, .jpg, .svc, .gif")
-
                 readme_text += readme_img_add
 
     with open("README.md", "w") as readme_file:
